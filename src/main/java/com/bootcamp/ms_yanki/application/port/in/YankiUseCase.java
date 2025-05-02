@@ -10,4 +10,5 @@ public interface YankiUseCase {
     Mono<Yanki> create(Yanki model);
     Flux<Yanki> findAll();
     Mono<Yankeo> transfer(Yankeo transfer);
+    Mono<Void> linkDebitCard(String phone, String debitCardNumber);
 }

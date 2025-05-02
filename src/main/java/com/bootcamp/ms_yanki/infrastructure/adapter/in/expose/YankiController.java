@@ -6,6 +6,7 @@ import com.bootcamp.ms_yanki.infrastructure.adapter.in.api.YankiApi;
 import com.bootcamp.ms_yanki.infrastructure.adapter.in.mapper.OpenApiMapper;
 import com.bootcamp.ms_yanki.infrastructure.adapter.in.model.TransactionDto;
 import com.bootcamp.ms_yanki.infrastructure.adapter.in.model.YankiDto;
+import com.bootcamp.ms_yanki.infrastructure.adapter.in.model.YankiLinkRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,14 @@ public class YankiController implements YankiApi {
             .contentType(MediaType.APPLICATION_JSON)
             .body(useCase.findAll().map(OpenApiMapper::toDto)));
     }
+
+    @Override
+    public Mono<ResponseEntity<YankiLinkRequest>> linkDebitCard(Mono<YankiLinkRequest> yankiLinkRequest, ServerWebExchange exchange) {
+        return yankiLinkRequest
+                .flatMap(request -> useCase.linkDebitCard(request.getPhone(), request.getDebitCardNumber()))
+                .map(resp -> ResponseEntity.ok().build());
+    }
+
 
     @Override
     public Mono<ResponseEntity<TransactionDto>> transfer(Mono<TransactionDto> transactionDto, ServerWebExchange exchange) {

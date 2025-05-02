@@ -14,6 +14,7 @@ public class YankiEntityMapper {
             .phone(entity.getPhone())
             .debitCardNumber(entity.getDebitCardNumber())
             .balance(entity.getBalance())
+            .associationStatus(entity.getAssociationStatus())
             .build();
     }
 
@@ -26,6 +27,7 @@ public class YankiEntityMapper {
             .phone(model.getPhone())
             .debitCardNumber(model.getDebitCardNumber())
             .balance(model.getBalance())
+            .associationStatus(model.getAssociationStatus())
             .build();
     }
 }

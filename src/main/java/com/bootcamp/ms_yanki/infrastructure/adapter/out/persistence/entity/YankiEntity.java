@@ -24,4 +24,5 @@ public class YankiEntity {
     private String email;
     private BigDecimal balance;
     private String debitCardNumber;
+    private String associationStatus; // PENDING, CONFIRMED, REJECTED
 }

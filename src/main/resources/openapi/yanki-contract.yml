@@ -22,7 +22,7 @@ tags:
 paths:
   /yanki:
     get:
-      tags: [ Yanki ]
+      tags: [Yanki]
       summary: Listar todos los wallets Yanki
       description: Retorna una lista paginada de todos los wallets registrados
       operationId: findAll
@@ -59,7 +59,7 @@ paths:
 
   /yanki/transfer:
     post:
-      tags: [ Yanki ]
+      tags: [Yanki]
       summary: Realiza pago con wallet Yanki
       operationId: transfer
       requestBody:
@@ -78,6 +78,26 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
+  /yanki/link-debit-card:
+    post:
+      tags: [Yanki]
+      summary: Asocia Yanki a una tarjeta de debito
+      operationId: linkDebitCard
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/YankiLinkRequest'
+      responses:
+        '200':
+          description: Solicitud enviada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YankiLinkRequest'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
 components:
   schemas:
@@ -127,6 +147,17 @@ components:
         tipo:
           type: string
           example: "PAYMENT"
+
+    YankiLinkRequest:
+      type: object
+      properties:
+        phone:
+          type: string
+          example: "976765433"
+        debitCardNumber:
+          type: string
+          example: "87876523"
+
 
     ErrorResponse:
       type: object

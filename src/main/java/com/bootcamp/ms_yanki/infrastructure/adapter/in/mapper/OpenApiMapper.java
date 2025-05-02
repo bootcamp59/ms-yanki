@@ -2,6 +2,7 @@ package com.bootcamp.ms_yanki.infrastructure.adapter.in.mapper;
 
 import com.bootcamp.ms_yanki.domain.model.Yanki;
 import com.bootcamp.ms_yanki.infrastructure.adapter.in.model.YankiDto;
+import com.bootcamp.ms_yanki.infrastructure.adapter.in.model.YankiLinkRequest;
 
 public class OpenApiMapper {
 
@@ -26,4 +27,6 @@ public class OpenApiMapper {
             .phone(dto.getPhone())
             .build();
     }
+
+
 }

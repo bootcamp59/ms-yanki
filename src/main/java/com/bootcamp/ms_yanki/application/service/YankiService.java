@@ -2,6 +2,7 @@ package com.bootcamp.ms_yanki.application.service;
 
 import com.bootcamp.ms_yanki.application.port.in.YankiUseCase;
 import com.bootcamp.ms_yanki.application.port.out.DebitCardServicePort;
+import com.bootcamp.ms_yanki.application.port.out.YankiEventPublisher;
 import com.bootcamp.ms_yanki.application.port.out.YankiRepositoryPort;
 import com.bootcamp.ms_yanki.domain.dto.Yankeo;
 import com.bootcamp.ms_yanki.domain.model.Yanki;
@@ -21,6 +22,7 @@ public class YankiService implements YankiUseCase {
 
     private final YankiRepositoryPort port;
     private final DebitCardServicePort debitCardServicePort;
+    private final YankiEventPublisher eventPublisher;
 
     @Override
     public Mono<Yanki> create(Yanki model) {
@@ -89,6 +91,18 @@ public class YankiService implements YankiUseCase {
 
 
             });
+    }
+
+    @Override
+    public Mono<Void> linkDebitCard(String phone, String debitCardNumber) {
+        return port.findByPhone(phone)
+            .flatMap(yanki -> {
+                yanki.setDebitCardNumber(debitCardNumber);
+                yanki.setAssociationStatus("PENDING");
+                return port.create(yanki)
+                    .doOnSuccess(eventPublisher::publishLinkDebitCard);
+            })
+            .then();
     }
 
     private void validateWalletExistence(Yanki wallet, String phone) {
